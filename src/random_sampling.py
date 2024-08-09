@@ -116,17 +116,4 @@ def main(ifile_name: str, seed: int):
     if extract_sentences(ifile_name, rlist, out_file_path):
         print('Done')
 
-if __name__ == "__main__":
-    start_time = time.time()
-    
-    hi_path = 'int/hi/int_hi.txt'
-    seed = 372
-    out_file_path = 'outputs/hi/rand/selected_sentences_50L_1.txt'
-
-    # Ensure the output directory exists
-    os.makedirs(os.path.dirname(out_file_path), exist_ok=True)
-    
-    main(ifile_name=hi_path, seed=seed)
-    
-    end_time = time.time()
-    rlogger.info(f'Time taken: {end_time - start_time} seconds')
+# 

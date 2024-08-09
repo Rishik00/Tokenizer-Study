@@ -11,20 +11,26 @@ from zh_utils import ChineseTextCleaner
 from logger_config import setup_logging
 
 # Set up logger configuration
-ur_log_files: List[str] = ['logs/ur/loader.log', 'logs/ur/dloader.log']
-han_log_files: List[str] = ['logs/zh/hanloader.log', 'logs/zh/dhloader.log']
-hi_log_files: List[str] = ['logs/hi/hindiloader.log', 'logs/hi/dhinloader.log']
 
-loader_log = setup_logging(log_file=hi_log_files[0])
+loader_log = setup_logging()
 
 LANG_ID = 'hi' # select the target language   
 
-def read_segments(file_name: str, int_file: str):
+def read_segments(file_name: str, int_file: str) -> None:
+    """
+    Read segments from a file and process them into sentences based on specific delimiters. 
+
+    Args:
+        file_name (str): Path to the input file to read segments from.
+        int_file (str): Path to the output file where processed segments will be written.
+
+    Raises:
+        Exception: If there is an error reading the file or processing segments.
+    """
     segments, current_segment = [], []
     BATCH_SIZE: int = 100000
     
     try:
-    
         with open(file_name, 'r+b') as file:
             mfile = mmap.mmap(file.fileno(), 0, prot=mmap.PROT_READ)
             
@@ -41,7 +47,6 @@ def read_segments(file_name: str, int_file: str):
                     if char in ('।', '!'):
                         
                         if temp_segment:
-                        
                             current_segment.append(temp_segment.strip())
                             segments.append(' '.join(current_segment))
 
@@ -67,8 +72,17 @@ def read_segments(file_name: str, int_file: str):
     finally:
         mfile.close()
 
-def writefn(int_file_name: str, segments: List[str]):
+def writefn(int_file_name: str, segments: List[str]) -> None:
+    """
+    Write processed segments to a file, cleaning each segment and logging progress.
 
+    Args:
+        int_file_name (str): Path to the output file where cleaned segments will be written.
+        segments (List[str]): List of segments to write to the file.
+
+    Raises:
+        Exception: If there is an error writing to the file or processing segments.
+    """
     try:
         total_segments = len(segments)
 
@@ -94,7 +108,17 @@ def writefn(int_file_name: str, segments: List[str]):
         raise e
     
 
-def main(ifile_name: str, int_file: str):
+def main(ifile_name: str, int_file: str) -> None:
+    """
+    Main function to read segments from an input file and write processed segments to an output file.
+
+    Args:
+        ifile_name (str): Path to the input file to read segments from.
+        int_file (str): Path to the output file where processed segments will be written.
+
+    Raises:
+        FileNotFoundError: If the input file is not found.
+    """
     try:
         read_segments(ifile_name, int_file)
         
@@ -104,21 +128,3 @@ def main(ifile_name: str, int_file: str):
     
     finally:
         loader_log.info(f'Written {ifile_name} to {int_file}')
-
-if __name__ == "__main__":
-    try:
-        start_time = time.time()
-
-        input_file: str = 'data/hi/hi_large.txt'
-        intermediate_file: str = 'int/hi/int_hi.txt'
-        main(input_file, intermediate_file)
-        
-    except Exception as e:
-        loader_log.error(f'Loader main fn error: {e}')
-        raise e
-    
-    finally:
-        end_time = time.time()
-        time_taken = end_time - start_time
-        loader_log.info(f'File {input_file} parsed completely')
-        loader_log.info(f'Script execution completed in {time_taken:.4f} seconds')
