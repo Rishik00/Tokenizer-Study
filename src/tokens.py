@@ -5,10 +5,10 @@ from typing import List, Any, Dict
 
 # Local imports
 from ur_utils import UrduTokenizer
-from zh_utils import ChineseTokenizer
+from src.utils.zh_utils import ChineseTokenizer
 from hi_utils import HindiTokenizer
-from logger_config import setup_logging
-from db import LevelDB
+from src.utils.logger_config import setup_logging
+from src.utils.db import LevelDB
 
 # Set up logger configuration
 tok_logger = setup_logging('logs/hi/indic_spacy.log')

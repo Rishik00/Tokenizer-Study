@@ -2,7 +2,7 @@ import os
 import time
 import random
 from typing import List
-from logger_config import setup_logging
+from src.utils.logger_config import setup_logging
 
 # Set up logging
 rlogger = setup_logging(log_file='logs/hi/rdtok.log')

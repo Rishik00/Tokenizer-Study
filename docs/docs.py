@@ -58,7 +58,7 @@ module has been broken into two classes:
 
 loader_docstring = \
 """
-This module's implementation focuses on providing utilities for reading large text documents through RAM. Loading large files (>1GB)
+This module's implementation focuses on providing utilities for reading large text documents efficiently on memory. Loading large files (>1GB)
 can be expensive and can cause crashes to the system if memory is not handled carefully. The implementation uses mmap to lazy load the file into 
 "segments", where each sentence is a portion of text with an arabic period (.) or a comma (,). The input file is loaded into memory using the mmap 
 module, which lazily loads the file chunkwise and uses the virtual memory. Every segment is then cleaned for the following purposes:

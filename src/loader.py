@@ -5,13 +5,12 @@ from typing import List
 from tqdm import tqdm
 
 # Local imports
-from ur_utils import UrduTextCleaner
-from hi_utils import HindiTextCleaner
-from zh_utils import ChineseTextCleaner
-from logger_config import setup_logging
+from src.lng_utils.ur_utils import UrduTextCleaner
+from src.lng_utils.hi_utils import HindiTextCleaner
+from src.utils.zh_utils import ChineseTextCleaner
+from src.utils.logger_config import setup_logging
 
 # Set up logger configuration
-
 loader_log = setup_logging()
 
 LANG_ID = 'hi' # select the target language   
@@ -36,7 +35,7 @@ def read_segments(file_name: str, int_file: str) -> None:
             
             for segment in iter(mfile.readline, b""):                
                 segment = segment.strip().decode('utf-8')
-                # loader_log.info(f'Uncleaned: {segment}')
+                loader_log.debug(f'Uncleaned: {segment}')
                 
                 if not segment:
                     continue

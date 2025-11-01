@@ -8,7 +8,7 @@ import plyvel as pl
 
 # Local imports
 from ur_normalize import URDU_ALL_CHARACTERS_UNICODE as urdu_chars
-from logger_config import setup_logging
+from src.utils.logger_config import setup_logging
 
 dblogger = setup_logging()
 
